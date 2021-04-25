@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,8 +13,12 @@ export class ProductserviceService {
   getProductById(id: any) {
     return this.http.get<any>(this.url + id);
   }
-  getProducts() {
-    return this.http.get<any>(this.url);
+  getProducts(): Observable<Object> {
+    return this.http.get<any>(this.url).pipe(
+      map((res) => {
+        return res;
+      })
+    );
   }
 
   addProducts(name: any, price: any, quantity: any) {
@@ -25,9 +30,11 @@ export class ProductserviceService {
       });
   }
 
-  deleteP(id: any) {
-    this.http.delete(this.url + id).subscribe((res) => {
-      return res;
-    });
+  deleteP(id: any): Observable<Object> {
+    return this.http.delete(this.url + id).pipe(
+      map((res) => {
+        return res;
+      })
+    );
   }
 }
